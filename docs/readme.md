@@ -2,7 +2,7 @@
 ### Domain
 - 각 호선별로 객체 생성해 LineRepository의 lines list에 저장
 - 각 역별로 객체 생성해 StationRepository의 stations list에 저장
-- 각 역 사이 거리 및 소요시간 정보 StationRepository에 리스트로 저장하기(구조: [["정점1", "정점2", "간선1 거리 / 간선1 소요시간"]])
+- 각 역 사이 거리 및 소요시간 정보 SubwayController에 리스트로 저장하기(구조: [["정점1", "정점2", "간선1 거리 / 간선1 소요시간"]])
 
 ### 입출력 View
 - 경로조회 or 종료 입력받기
