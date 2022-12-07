@@ -1,11 +1,17 @@
 package subway.controller;
 
+import subway.domain.Line;
+import subway.repository.LineRepository;
 import subway.repository.SubwayRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SubwayController {
+
+    LineController lineController = new LineController();
+    StationController stationController = new StationController();
+
     public void saveEdgeList() {
         String[] gyodae_gangnam={"교대역", "강남역", "2km / 3분"};
         String[] gangnam_yeoksam={"강남역", "역삼역", "2km / 3분"};
@@ -22,5 +28,23 @@ public class SubwayController {
         SubwayRepository.addEdge(yangjae_maebong);
         SubwayRepository.addEdge(gangnam_yangjae);
         SubwayRepository.addEdge(yangjae_yangjaeCitizen);
+    }
+
+    public void setSubwayGraph() {
+        lineController.saveLineList();
+        stationController.saveStationList();
+        saveEdgeList();
+        List<Line> lines = LineRepository.lines();
+        List<String> lineNames = getLinesName(lines);
+    }
+
+    public List<String> getLinesName(List<Line> lines) {
+        List<String> lineNames = new ArrayList<>();
+        for (Line line: lines) {
+            String name = line.getName();
+            lineNames.add(name);
+        }
+
+        return lineNames;
     }
 }
