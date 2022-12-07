@@ -1,7 +1,9 @@
 package subway.controller;
 
 import subway.domain.Line;
+import subway.domain.Station;
 import subway.repository.LineRepository;
+import subway.repository.StationRepository;
 import subway.repository.SubwayRepository;
 
 import java.util.ArrayList;
@@ -36,6 +38,9 @@ public class SubwayController {
         saveEdgeList();
         List<Line> lines = LineRepository.lines();
         List<String> lineNames = getLinesName(lines);
+
+        List<Station> stations = StationRepository.stations();
+        List<String> stationNames = getStationName(stations);
     }
 
     public List<String> getLinesName(List<Line> lines) {
@@ -46,5 +51,14 @@ public class SubwayController {
         }
 
         return lineNames;
+    }
+
+    public List<String> getStationName(List<Station> stations) {
+        List<String> stationNames = new ArrayList<>();
+        for (Station station: stations) {
+            String name = station.getName();
+            stationNames.add(name);
+        }
+        return stationNames;
     }
 }
