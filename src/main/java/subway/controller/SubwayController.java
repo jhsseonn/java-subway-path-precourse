@@ -55,6 +55,29 @@ public class SubwayController {
         }
     }
 
+    public void getPathStandard() {
+        outputView.printGraphStandard();
+        outputView.printInputChoice();
+    }
+
+    public void setPathStandard(String pathStandard) {
+        if(pathStandard.equals("1")) {
+
+        }
+        if(pathStandard.equals("2")) {
+
+        }
+        if(pathStandard.equals("B")) {
+
+        }
+    }
+
+    public void getShortestPath(String start, String destination) {
+
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(setSubwayGraph());
+        List<String> shortestPath = dijkstraShortestPath.getPath("v3", "v1").getVertexList();
+    }
+
     public WeightedMultigraph<String, DefaultWeightedEdge> setSubwayGraph() {
         lineController.saveLineList();
         stationController.saveStationList();
