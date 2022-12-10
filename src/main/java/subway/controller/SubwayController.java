@@ -46,6 +46,15 @@ public class SubwayController {
         outputView.printInputChoice();
     }
 
+    public void setFeatMainNumber(String feat) {
+        if (feat.equals("1")) {
+            getPathStandard();
+        }
+        if (feat.equals("Q")) {
+            System.exit(1);
+        }
+    }
+
     public WeightedMultigraph<String, DefaultWeightedEdge> setSubwayGraph() {
         lineController.saveLineList();
         stationController.saveStationList();
