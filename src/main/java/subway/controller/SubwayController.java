@@ -18,13 +18,13 @@ public class SubwayController {
     StationController stationController = new StationController();
 
     public void saveEdgeList() {
-        String[] gyodae_gangnam={"교대역", "강남역", "2km / 3분"};
-        String[] gangnam_yeoksam={"강남역", "역삼역", "2km / 3분"};
-        String[] gyodae_nambu={"교대역", "남부터미널역", "3km / 2분"};
-        String[] nambu_yangjae={"남부터미널역", "양재역", "6km / 5분"};
-        String[] yangjae_maebong={"양재역", "매봉역", "1km / 1분"};
-        String[] gangnam_yangjae={"강남역", "양재역", "2km / 8분"};
-        String[] yangjae_yangjaeCitizen={"양재역", "양재시민의숲역", "10km / 3분"};
+        String[] gyodae_gangnam={"교대역", "강남역", "2/3"};
+        String[] gangnam_yeoksam={"강남역", "역삼역", "2/3"};
+        String[] gyodae_nambu={"교대역", "남부터미널역", "3/2"};
+        String[] nambu_yangjae={"남부터미널역", "양재역", "6/5"};
+        String[] yangjae_maebong={"양재역", "매봉역", "1/1"};
+        String[] gangnam_yangjae={"강남역", "양재역", "2/8"};
+        String[] yangjae_yangjaeCitizen={"양재역", "양재시민의숲역", "10/3"};
 
         SubwayRepository.addEdge(gyodae_gangnam);
         SubwayRepository.addEdge(gangnam_yeoksam);
@@ -41,10 +41,11 @@ public class SubwayController {
         saveEdgeList();
         List<String> lineNames = getLinesName(LineRepository.lines());
         List<String> stationNames = getStationName(StationRepository.stations());
+        List<String[]> subwayEdges = SubwayRepository.edges();
 
         WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph = new WeightedMultigraph(DefaultWeightedEdge.class);
         addVertexSubway(stationNames, subwayGraph);
-
+        setEdgeWeightSubway(subwayEdges, subwayGraph);
     }
 
     public List<String> getLinesName(List<Line> lines) {
@@ -70,6 +71,13 @@ public class SubwayController {
     public void addVertexSubway(List<String> stationNames, WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph) {
         for (String stationName: stationNames) {
             subwayGraph.addVertex(stationName);
+        }
+    }
+
+    public void setEdgeWeightSubway(List<String[]> subwayEdges, WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph) {
+        for (String[] edge: subwayEdges) {
+            String[] distance = edge[2].split("/");
+            subwayGraph.setEdgeWeight(subwayGraph.addEdge(edge[0], edge[1]), Integer.parseInt(distance[0]));
         }
     }
 
