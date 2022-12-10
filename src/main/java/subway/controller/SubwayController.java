@@ -1,5 +1,8 @@
 package subway.controller;
 
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.WeightedMultigraph;
 import subway.domain.Line;
 import subway.domain.Station;
 import subway.repository.LineRepository;
@@ -36,11 +39,12 @@ public class SubwayController {
         lineController.saveLineList();
         stationController.saveStationList();
         saveEdgeList();
-        List<Line> lines = LineRepository.lines();
-        List<String> lineNames = getLinesName(lines);
+        List<String> lineNames = getLinesName(LineRepository.lines());
+        List<String> stationNames = getStationName(StationRepository.stations());
 
-        List<Station> stations = StationRepository.stations();
-        List<String> stationNames = getStationName(stations);
+        WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph = new WeightedMultigraph(DefaultWeightedEdge.class);
+        addVertexSubway(stationNames, subwayGraph);
+
     }
 
     public List<String> getLinesName(List<Line> lines) {
@@ -61,4 +65,13 @@ public class SubwayController {
         }
         return stationNames;
     }
+
+
+    public void addVertexSubway(List<String> stationNames, WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph) {
+        for (String stationName: stationNames) {
+            subwayGraph.addVertex(stationName);
+        }
+    }
+
+
 }
