@@ -3,6 +3,9 @@ package subway.controller;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
+import subway.Application;
+import subway.config.InputView;
+import subway.config.OutputView;
 import subway.domain.Line;
 import subway.domain.Station;
 import subway.repository.LineRepository;
@@ -16,6 +19,9 @@ public class SubwayController {
 
     LineController lineController = new LineController();
     StationController stationController = new StationController();
+
+    InputView inputView = new InputView();
+    OutputView outputView = new OutputView();
 
     public void saveEdgeList() {
         String[] gyodae_gangnam={"교대역", "강남역", "2/3"};
@@ -35,7 +41,12 @@ public class SubwayController {
         SubwayRepository.addEdge(yangjae_yangjaeCitizen);
     }
 
-    public void setSubwayGraph() {
+    public void getFeatMainNumber() {
+        outputView.printMain();
+        outputView.printInputChoice();
+    }
+
+    public WeightedMultigraph<String, DefaultWeightedEdge> setSubwayGraph() {
         lineController.saveLineList();
         stationController.saveStationList();
         saveEdgeList();
@@ -46,6 +57,8 @@ public class SubwayController {
         WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph = new WeightedMultigraph(DefaultWeightedEdge.class);
         addVertexSubway(stationNames, subwayGraph);
         setEdgeWeightSubway(subwayEdges, subwayGraph);
+
+        return subwayGraph;
     }
 
     public List<String> getLinesName(List<Line> lines) {
@@ -80,6 +93,8 @@ public class SubwayController {
             subwayGraph.setEdgeWeight(subwayGraph.addEdge(edge[0], edge[1]), Integer.parseInt(distance[0]));
         }
     }
+
+
 
 
 }
