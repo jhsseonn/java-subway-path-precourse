@@ -72,13 +72,13 @@ public class SubwayController {
         }
     }
 
-    public void getShortestPath(String start, String destination) {
+    public void getShortestPath(String start, String destination, String pathStandard) {
 
-        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(setSubwayGraph());
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(setSubwayGraph(pathStandard));
         List<String> shortestPath = dijkstraShortestPath.getPath("v3", "v1").getVertexList();
     }
 
-    public WeightedMultigraph<String, DefaultWeightedEdge> setSubwayGraph() {
+    public WeightedMultigraph<String, DefaultWeightedEdge> setSubwayGraph(String pathStandard) {
         lineController.saveLineList();
         stationController.saveStationList();
         saveEdgeList();
@@ -88,7 +88,7 @@ public class SubwayController {
 
         WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph = new WeightedMultigraph(DefaultWeightedEdge.class);
         addVertexSubway(stationNames, subwayGraph);
-        setEdgeWeightSubway(subwayEdges, subwayGraph);
+        setEdgeWeightSubway(subwayEdges, subwayGraph, pathStandard);
 
         return subwayGraph;
     }
@@ -119,10 +119,15 @@ public class SubwayController {
         }
     }
 
-    public void setEdgeWeightSubway(List<String[]> subwayEdges, WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph) {
+    public void setEdgeWeightSubway(List<String[]> subwayEdges, WeightedMultigraph<String, DefaultWeightedEdge> subwayGraph, String graphStandard) {
         for (String[] edge: subwayEdges) {
             String[] distance = edge[2].split("/");
-            subwayGraph.setEdgeWeight(subwayGraph.addEdge(edge[0], edge[1]), Integer.parseInt(distance[0]));
+            if (graphStandard.equals("1")) {
+                subwayGraph.setEdgeWeight(subwayGraph.addEdge(edge[0], edge[1]), Integer.parseInt(distance[0]));
+            }
+            if (graphStandard.equals("2")) {
+                subwayGraph.setEdgeWeight(subwayGraph.addEdge(edge[0], edge[1]), Integer.parseInt(distance[1]));
+            }
         }
     }
 
